@@ -17,4 +17,8 @@ public class Order {
                 OrderItems.create()
         );
     }
+
+    public Order addItem(final OrderItem orderItem) {
+        return new Order(id, items.addItem(orderItem));
+    }
 }

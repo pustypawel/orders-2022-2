@@ -14,4 +14,12 @@ public class Product {
     //docelowo powinniśmy skorzystać z:
     //https://github.com/JavaMoney/jsr354-api
     private final BigDecimal price;
+
+    public static Product create() {
+        return new Product(
+                ProductId.create(),
+                "Czekolada",
+                BigDecimal.valueOf(3)
+        );
+    }
 }

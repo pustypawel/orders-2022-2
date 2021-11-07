@@ -3,6 +3,8 @@ package pl.edu.wszib.order.application.order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderFacadeTest {
@@ -37,5 +39,18 @@ public class OrderFacadeTest {
         assertNotNull(order);
         assertNotNull(order.getId());
         assertTrue(orderFacade.findById(order.getId()).isPresent());
+    }
+
+    @Test
+    public void should_be_able_to_add_item_to_order() {
+        //given:
+        final OrderId orderId = orderFacade.create().getId();
+
+        //when:
+        final Optional<Order> orderWithNewItem = orderFacade.addItem(orderId, OrderItem.create());
+
+        //then:
+        assertTrue(orderWithNewItem.isPresent());
+        System.out.println(orderWithNewItem);
     }
 }

@@ -14,4 +14,9 @@ public class OrderItems {
     public static OrderItems create() {
         return new OrderItems(new HashSet<>());
     }
+
+    public OrderItems addItem(final OrderItem orderItem) {
+        items.add(orderItem);
+        return new OrderItems(items);
+    }
 }
