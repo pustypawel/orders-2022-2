@@ -13,4 +13,5 @@ public class ProductId {
     public static ProductId create() {
         return new ProductId(UUID.randomUUID().toString());
     }
+
 }

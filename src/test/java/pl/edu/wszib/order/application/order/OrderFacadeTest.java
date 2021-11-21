@@ -2,6 +2,7 @@ package pl.edu.wszib.order.application.order;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.edu.wszib.order.application.product.*;
 
 import java.util.Optional;
 
@@ -25,7 +26,9 @@ public class OrderFacadeTest {
     @BeforeEach
     public void setUp() {
         final OrderRepository orderRepository = new InMemoryOrderRepository();
-        orderFacade = new OrderFacade(orderRepository);
+        final ProductFacade productFacade = new ProductFacade(new InMemoryProductRepository());
+        new ProductRepositoryInitialization().init(productFacade);
+        orderFacade = new OrderFacade(orderRepository, productFacade);
     }
 
     @Test
@@ -45,12 +48,14 @@ public class OrderFacadeTest {
     public void should_be_able_to_add_item_to_order() {
         //given:
         final OrderId orderId = orderFacade.create().getId();
+        final ProductId productToAdd = ProductSamples.CHOCOLATE.getId();
 
         //when:
-        final Optional<Order> orderWithNewItem = orderFacade.addItem(orderId, OrderItem.create());
+        final Optional<Order> orderWithNewItem = orderFacade.addItem(orderId, productToAdd, 1);
 
         //then:
         assertTrue(orderWithNewItem.isPresent());
+        //TODO Impl sprawdzić czy zamówienie zawiera dodaną pozycję
         System.out.println(orderWithNewItem);
     }
 }
