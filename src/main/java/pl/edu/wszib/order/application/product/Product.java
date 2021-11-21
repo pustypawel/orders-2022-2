@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 
 @ToString
 @AllArgsConstructor
+@Getter
 public class Product {
-    @Getter
     private final ProductId id;
     private final String name;
 

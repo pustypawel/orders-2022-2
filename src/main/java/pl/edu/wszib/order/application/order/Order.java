@@ -3,6 +3,7 @@ package pl.edu.wszib.order.application.order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
+import pl.edu.wszib.order.api.order.OrderApi;
 
 @ToString
 @AllArgsConstructor
@@ -20,6 +21,10 @@ public class Order {
 
     public Order addItem(final OrderItem orderItem) {
         return new Order(id, items.addItem(orderItem));
+    }
+
+    public OrderApi toApi() {
+        return new OrderApi(id.asBasicType(), items.toApi());
     }
 
     // ORDERS

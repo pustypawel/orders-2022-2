@@ -1,12 +1,10 @@
 package pl.edu.wszib.order.application.product;
 
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.Value;
 
 import java.util.UUID;
 
-@ToString
-@AllArgsConstructor
+@Value
 public class ProductId {
     private final String id;
 
@@ -14,4 +12,7 @@ public class ProductId {
         return new ProductId(UUID.randomUUID().toString());
     }
 
+    public String asBasicTYpe() {
+        return id;
+    }
 }

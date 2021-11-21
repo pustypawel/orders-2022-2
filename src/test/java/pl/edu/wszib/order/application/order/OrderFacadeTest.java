@@ -2,6 +2,8 @@ package pl.edu.wszib.order.application.order;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.application.product.*;
 
 import java.util.Optional;
@@ -36,7 +38,7 @@ public class OrderFacadeTest {
         //given:
 
         //when:
-        final Order order = orderFacade.create();
+        final OrderApi order = orderFacade.create();
 
         //then:
         assertNotNull(order);
@@ -47,15 +49,16 @@ public class OrderFacadeTest {
     @Test
     public void should_be_able_to_add_item_to_order() {
         //given:
-        final OrderId orderId = orderFacade.create().getId();
+        final String orderId = orderFacade.create().getId();
         final ProductId productToAdd = ProductSamples.CHOCOLATE.getId();
 
         //when:
-        final Optional<Order> orderWithNewItem = orderFacade.addItem(orderId, productToAdd, 1);
+        final OrderApiResult result = orderFacade.addItem(orderId, productToAdd, 1);
 
         //then:
-        assertTrue(orderWithNewItem.isPresent());
-        //TODO Impl sprawdzić czy zamówienie zawiera dodaną pozycję
-        System.out.println(orderWithNewItem);
+        assertTrue(result.isSuccess());
+        final OrderApi modifiedOrder = result.getOrder();
+        assertTrue(modifiedOrder.contains(productToAdd.asBasicTYpe()));
+        System.out.println(modifiedOrder);
     }
 }
