@@ -1,12 +1,17 @@
 package pl.edu.wszib.order.api.order;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Value;
 
 import java.util.Set;
 
 @Value
 public class OrderApi {
+    @NotBlank
     private final String id;
+
+    @NotEmpty
     private final Set<OrderItemApi> items;
 
     public boolean notContains(final String productId) {
