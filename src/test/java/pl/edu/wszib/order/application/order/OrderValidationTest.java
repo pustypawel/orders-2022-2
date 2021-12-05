@@ -30,8 +30,4 @@ public class OrderValidationTest {
         assertTrue(results.isEmpty(), results.toString());
     }
 
-    @Test
-    public void never_pass() {
-        assertTrue(false);
-    }
 }
