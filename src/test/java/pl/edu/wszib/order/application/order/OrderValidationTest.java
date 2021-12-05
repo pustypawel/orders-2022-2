@@ -29,4 +29,9 @@ public class OrderValidationTest {
         results.forEach(result -> System.out.println("Property: " + result.getPropertyPath() + " " + result.getMessage()));
         assertTrue(results.isEmpty(), results.toString());
     }
+
+    @Test
+    public void never_pass() {
+        assertTrue(false);
+    }
 }
