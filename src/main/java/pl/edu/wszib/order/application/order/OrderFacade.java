@@ -1,5 +1,6 @@
 package pl.edu.wszib.order.application.order;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
@@ -10,7 +11,7 @@ import pl.edu.wszib.order.application.product.ProductId;
 
 import java.util.Optional;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class OrderFacade {
     private final OrderRepository orderRepository;
     private final ProductFacade productFacade;

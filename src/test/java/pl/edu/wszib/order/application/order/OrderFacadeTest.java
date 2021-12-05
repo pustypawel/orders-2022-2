@@ -25,10 +25,7 @@ public class OrderFacadeTest {
 
     @BeforeEach
     public void setUp() {
-        final OrderRepository orderRepository = new InMemoryOrderRepository();
-        final ProductFacade productFacade = new ProductFacade(new InMemoryProductRepository());
-        new ProductRepositoryInitialization().init(productFacade);
-        orderFacade = new OrderFacade(orderRepository, productFacade);
+        orderFacade = new OrderModuleInitialization().getFacade();
     }
 
     @Test
