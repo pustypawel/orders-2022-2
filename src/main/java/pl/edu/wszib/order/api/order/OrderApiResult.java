@@ -1,10 +1,12 @@
 package pl.edu.wszib.order.api.order;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Value;
 
 @Value
 public class OrderApiResult {
+    @Valid
     private final OrderApi order;
     private final OrderError error;
 

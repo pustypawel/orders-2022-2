@@ -1,5 +1,6 @@
 package pl.edu.wszib.order.api.order;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Value;
@@ -12,7 +13,7 @@ public class OrderApi {
     private final String id;
 
     @NotEmpty
-    private final Set<OrderItemApi> items;
+    private final Set<@Valid OrderItemApi> items;
 
     public boolean notContains(final String productId) {
         return !contains(productId);
