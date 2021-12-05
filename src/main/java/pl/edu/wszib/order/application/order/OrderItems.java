@@ -3,6 +3,7 @@ package pl.edu.wszib.order.application.order;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import pl.edu.wszib.order.api.order.OrderItemApi;
+import pl.edu.wszib.order.application.product.ProductId;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +20,11 @@ public class OrderItems {
 
     public OrderItems addItem(final OrderItem orderItem) {
         items.add(orderItem);
+        return new OrderItems(items);
+    }
+
+    public OrderItems removeItem(final ProductId productId) {
+        items.removeIf(item -> item.hasProductId(productId));
         return new OrderItems(items);
     }
 

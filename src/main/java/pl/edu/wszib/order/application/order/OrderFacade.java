@@ -55,4 +55,14 @@ public class OrderFacade {
             return OrderApiResult.failure(OrderError.PRODUCT_NOT_FOUND);
         }
     }
+
+    public OrderApiResult removeItem(final String orderId,
+                                     final ProductId productId) {
+        return orderRepository.findById(OrderId.of(orderId))
+                .map(order -> order.removeItem(productId))
+                .map(orderRepository::save)
+                .map(Order::toApi)
+                .map(OrderApiResult::success)
+                .orElseGet(() -> OrderApiResult.failure(OrderError.ORDER_NOT_FOUND));
+    }
 }

@@ -12,7 +12,7 @@ public class ProductId {
         return new ProductId(UUID.randomUUID().toString());
     }
 
-    public String asBasicTYpe() {
+    public String asBasicType() {
         return id;
     }
 }

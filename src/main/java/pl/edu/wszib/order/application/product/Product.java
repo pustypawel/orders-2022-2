@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @ToString
 @AllArgsConstructor
@@ -25,5 +26,9 @@ public class Product {
                 name,
                 price
         );
+    }
+
+    public boolean hasId(final ProductId productId) {
+        return Objects.equals(this.id, productId);
     }
 }

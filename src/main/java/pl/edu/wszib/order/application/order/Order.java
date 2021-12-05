@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.application.product.ProductId;
 
 @ToString
 @AllArgsConstructor
@@ -21,6 +22,10 @@ public class Order {
 
     public Order addItem(final OrderItem orderItem) {
         return new Order(id, items.addItem(orderItem));
+    }
+
+    public Order removeItem(final ProductId productId) {
+        return new Order(this.id, this.items.removeItem(productId));
     }
 
     public OrderApi toApi() {

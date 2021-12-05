@@ -6,8 +6,6 @@ import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.application.product.*;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderFacadeTest {
@@ -58,7 +56,25 @@ public class OrderFacadeTest {
         //then:
         assertTrue(result.isSuccess());
         final OrderApi modifiedOrder = result.getOrder();
-        assertTrue(modifiedOrder.contains(productToAdd.asBasicTYpe()));
+        assertTrue(modifiedOrder.contains(productToAdd.asBasicType()));
         System.out.println(modifiedOrder);
+    }
+
+    @Test
+    public void should_be_able_to_remove_item_from_order() {
+        //given:
+        final String orderId = orderFacade.create().getId();
+        final ProductId productToRemove = ProductSamples.CHOCOLATE.getId();
+        assertTrue(orderFacade.addItem(orderId, productToRemove, 1).isSuccess());
+        assertTrue(orderFacade.addItem(orderId, ProductSamples.COCA_COLA.getId(), 1).isSuccess());
+
+        //when:
+        final OrderApiResult result = orderFacade.removeItem(orderId, productToRemove);
+
+        //then:
+        assertTrue(result.isSuccess());
+        final OrderApi modifiedOrder = result.getOrder();
+        boolean notContains = modifiedOrder.notContains(productToRemove.asBasicType());
+        assertTrue(notContains);
     }
 }
