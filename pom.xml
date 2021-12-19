@@ -10,6 +10,7 @@
     <modules>
         <module>orders-api</module>
         <module>orders-application</module>
+        <module>orders-console-ui</module>
     </modules>
 
     <properties>
@@ -64,6 +65,17 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>pl.edu.wszib</groupId>
+                <artifactId>orders-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.edu.wszib</groupId>
+                <artifactId>orders-console-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit.version}</version>
@@ -72,6 +84,7 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- maven-enforcer-plugin -->
     <build>
         <pluginManagement>
             <plugins>
