@@ -12,7 +12,7 @@ public class OrderApi {
     @NotBlank
     private final String id;
 
-    @NotEmpty
+    @NotEmpty   //TODO po create to może być empty!
     private final Set<@Valid OrderItemApi> items;
 
     public boolean notContains(final String productId) {
