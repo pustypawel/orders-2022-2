@@ -1,8 +1,5 @@
 package pl.edu.wszib.order.application.product;
 
-import pl.edu.wszib.order.application.order.Order;
-import pl.edu.wszib.order.application.order.OrderId;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.util.Set;
 
@@ -15,8 +16,8 @@ public class ProductValidationTest {
 
     @Test
     public void product_validation_should_work() {
-        final Product product = ProductSamples.CHOCOLATE;
-        final Set<ConstraintViolation<Product>> results = validator.validate(product);
+        final ProductApi product = ProductSamples.CHOCOLATE;
+        final Set<ConstraintViolation<ProductApi>> results = validator.validate(product);
         results.forEach(result -> System.out.println("Property: " + result.getPropertyPath() + " " + result.getMessage()));
         assertTrue(results.isEmpty(), results.toString());
     }

@@ -1,13 +1,15 @@
 package pl.edu.wszib.order.application.product;
 
+import pl.edu.wszib.order.api.product.ProductApi;
+
 import java.math.BigDecimal;
 
 public class ProductSamples {
-    public static final Product CHOCOLATE = Product.create(ProductId.create(),
+    public static final ProductApi CHOCOLATE = new ProductApi(ProductId.create().asBasicType(),
             "Czekolada",
             BigDecimal.valueOf(4));
 
-    public static final Product COCA_COLA = Product.create(ProductId.create(),
+    public static final ProductApi COCA_COLA = new ProductApi(ProductId.create().asBasicType(),
             "Coca-cola",
             BigDecimal.valueOf(5));
 }

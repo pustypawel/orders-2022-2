@@ -6,7 +6,7 @@ import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderItemApi;
-import pl.edu.wszib.order.application.product.Product;
+import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.ProductSamples;
 
 import java.util.Set;
@@ -20,10 +20,10 @@ public class OrderValidationTest {
 
     @Test
     public void order_validation_should_work() {
-        final Product product = ProductSamples.CHOCOLATE;
+        final ProductApi product = ProductSamples.CHOCOLATE;
         final OrderApi order = new OrderApi(
                 UUID.randomUUID().toString(),
-                Set.of(new OrderItemApi(product.getId().asBasicType(), product.getName(), product.getPrice(), 1))
+                Set.of(new OrderItemApi(product, 1))
         );
         final Set<ConstraintViolation<OrderApi>> results = validator.validate(order);
         results.forEach(result -> System.out.println("Property: " + result.getPropertyPath() + " " + result.getMessage()));

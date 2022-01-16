@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.order.OrderError;
-import pl.edu.wszib.order.application.product.Product;
+import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.ProductFacade;
 import pl.edu.wszib.order.application.product.ProductId;
 
@@ -31,9 +31,9 @@ public class OrderFacade {
     }
 
     public OrderApiResult addItem(final String orderId,
-                                  final ProductId productId,
+                                  final String productId,
                                   final Integer quantity) {
-        return addItem(OrderId.of(orderId), productId, quantity);
+        return addItem(OrderId.of(orderId), ProductId.of(productId), quantity);
     }
 
     public OrderApiResult addItem(final OrderId orderId,
@@ -47,7 +47,7 @@ public class OrderFacade {
     private OrderApiResult addItem(final Order order,
                                    final ProductId productId,
                                    final Integer quantity) {
-        final Optional<Product> product = productFacade.findById(productId);
+        final Optional<ProductApi> product = productFacade.findById(productId);
         if (product.isPresent()) {
             final OrderItem orderItem = OrderItem.create(product.get(), quantity);
             final Order modifiedOrder = order.addItem(orderItem);
@@ -58,9 +58,9 @@ public class OrderFacade {
     }
 
     public OrderApiResult removeItem(final String orderId,
-                                     final ProductId productId) {
+                                     final String productId) {
         return orderRepository.findById(OrderId.of(orderId))
-                .map(order -> order.removeItem(productId))
+                .map(order -> order.removeItem(ProductId.of(productId)))
                 .map(orderRepository::save)
                 .map(Order::toApi)
                 .map(OrderApiResult::success)

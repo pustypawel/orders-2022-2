@@ -45,7 +45,7 @@ public class OrderFacadeTest {
     public void should_be_able_to_add_item_to_order() {
         //given:
         final String orderId = orderFacade.create().getId();
-        final ProductId productToAdd = ProductSamples.CHOCOLATE.getId();
+        final String productToAdd = ProductSamples.CHOCOLATE.getId();
 
         //when:
         final OrderApiResult result = orderFacade.addItem(orderId, productToAdd, 1);
@@ -53,7 +53,7 @@ public class OrderFacadeTest {
         //then:
         assertTrue(result.isSuccess());
         final OrderApi modifiedOrder = result.getOrder();
-        assertTrue(modifiedOrder.contains(productToAdd.asBasicType()));
+        assertTrue(modifiedOrder.contains(productToAdd));
         System.out.println(modifiedOrder);
     }
 
@@ -61,7 +61,7 @@ public class OrderFacadeTest {
     public void should_be_able_to_remove_item_from_order() {
         //given:
         final String orderId = orderFacade.create().getId();
-        final ProductId productToRemove = ProductSamples.CHOCOLATE.getId();
+        final String productToRemove = ProductSamples.CHOCOLATE.getId();
         assertTrue(orderFacade.addItem(orderId, productToRemove, 1).isSuccess());
         assertTrue(orderFacade.addItem(orderId, ProductSamples.COCA_COLA.getId(), 1).isSuccess());
 
@@ -71,7 +71,7 @@ public class OrderFacadeTest {
         //then:
         assertTrue(result.isSuccess());
         final OrderApi modifiedOrder = result.getOrder();
-        boolean notContains = modifiedOrder.notContains(productToRemove.asBasicType());
+        boolean notContains = modifiedOrder.notContains(productToRemove);
         assertTrue(notContains);
     }
 }

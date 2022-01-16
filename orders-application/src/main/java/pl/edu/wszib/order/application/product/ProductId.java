@@ -12,6 +12,10 @@ public class ProductId {
         return new ProductId(UUID.randomUUID().toString());
     }
 
+    public static ProductId of(final String id) {
+        return new ProductId(id);
+    }
+
     public String asBasicType() {
         return id;
     }
