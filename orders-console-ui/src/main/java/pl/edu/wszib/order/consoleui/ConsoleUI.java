@@ -1,12 +1,33 @@
 package pl.edu.wszib.order.consoleui;
 
+import pl.edu.wszib.order.api.product.ProductApi;
+import pl.edu.wszib.order.application.order.InMemoryOrderRepository;
+import pl.edu.wszib.order.application.order.OrderFacade;
+import pl.edu.wszib.order.application.order.OrderModule;
+import pl.edu.wszib.order.application.product.InMemoryProductRepository;
+import pl.edu.wszib.order.application.product.ProductFacade;
+import pl.edu.wszib.order.application.product.ProductId;
+import pl.edu.wszib.order.application.product.ProductModule;
+
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
+    private final OrderFacade orderFacade;
+    private final ProductFacade productFacade;
+
+    public ConsoleUI() {
+        final ProductModule productModule = new ProductModule(new InMemoryProductRepository());
+        final OrderModule orderModule = new OrderModule(new InMemoryOrderRepository(), productModule.getFacade());
+        this.orderFacade = orderModule.getFacade();
+        this.productFacade = productModule.getFacade();
+    }
 
     public void run() {
-        new OrderMenuView(scanner).open();
+        productFacade.create(new ProductApi(ProductId.create().asBasicType(), "Coca-cola", BigDecimal.valueOf(5)));
+        productFacade.create(new ProductApi(ProductId.create().asBasicType(), "Czekolada", BigDecimal.valueOf(4)));
+        new OrderMenuView(scanner, orderFacade, productFacade).open();
     }
 
     // 1. Utwórz zamówienie

@@ -4,9 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
-import pl.edu.wszib.order.application.product.*;
+import pl.edu.wszib.order.application.product.ProductSamples;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrderFacadeTest {
     //T1. można utworzyć zamówienie
@@ -33,18 +34,19 @@ public class OrderFacadeTest {
         //given:
 
         //when:
-        final OrderApi order = orderFacade.create();
+        final OrderApiResult result = orderFacade.create();
 
         //then:
-        assertNotNull(order);
-        assertNotNull(order.getId());
-        assertTrue(orderFacade.findById(order.getId()).isPresent());
+        assertNotNull(result);
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getOrder().getId());
+        assertTrue(orderFacade.findById(result.getOrder().getId()).isSuccess());
     }
 
     @Test
     public void should_be_able_to_add_item_to_order() {
         //given:
-        final String orderId = orderFacade.create().getId();
+        final String orderId = orderFacade.create().getOrder().getId();
         final String productToAdd = ProductSamples.CHOCOLATE.getId();
 
         //when:
@@ -60,7 +62,7 @@ public class OrderFacadeTest {
     @Test
     public void should_be_able_to_remove_item_from_order() {
         //given:
-        final String orderId = orderFacade.create().getId();
+        final String orderId = orderFacade.create().getOrder().getId();
         final String productToRemove = ProductSamples.CHOCOLATE.getId();
         assertTrue(orderFacade.addItem(orderId, productToRemove, 1).isSuccess());
         assertTrue(orderFacade.addItem(orderId, ProductSamples.COCA_COLA.getId(), 1).isSuccess());

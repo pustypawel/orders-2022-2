@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.util.Optional;
+import java.util.Set;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ProductFacade {
@@ -19,6 +20,10 @@ public class ProductFacade {
     public Optional<ProductApi> findById(final ProductId productId) {
         return productRepository.findById(productId)
                 .map(Product::toApi);
+    }
+
+    public Set<ProductApi> findAll() {
+        return Set.of();
     }
 
     //TODO findAll

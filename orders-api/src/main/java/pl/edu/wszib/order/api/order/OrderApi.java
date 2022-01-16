@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Value;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Value
 public class OrderApi {
@@ -22,5 +24,11 @@ public class OrderApi {
     public boolean contains(final String productId) {
         return items.stream()
                 .anyMatch(item -> item.isProduct(productId));
+    }
+
+    public Set<ProductApi> getProducts() {
+        return items.stream()
+                .map(OrderItemApi::getProduct)
+                .collect(Collectors.toSet());
     }
 }

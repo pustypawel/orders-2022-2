@@ -1,75 +1,81 @@
 package pl.edu.wszib.order.consoleui;
 
 import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.product.ProductApi;
-import pl.edu.wszib.order.application.product.ProductId;
+import pl.edu.wszib.order.application.order.OrderFacade;
+import pl.edu.wszib.order.application.product.ProductFacade;
 
-import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 class OrderMenuController {
     private final OrderMenuView view;
+    private final OrderFacade orderFacade;
+    private final ProductFacade productFacade;
 
-    public OrderMenuController(final OrderMenuView view) {
+    public OrderMenuController(final OrderMenuView view,
+                               final OrderFacade orderFacade,
+                               final ProductFacade productFacade) {
         this.view = view;
+        this.orderFacade = orderFacade;
+        this.productFacade = productFacade;
     }
 
-    OrderApi handle(final OrderMenuOption option) {
+    Optional<OrderApiResult> handle(final OrderMenuOption option) {
+        OrderApiResult result;
         switch (option) {
             case CREATE_ORDER:
-                return createOrder();
+                result = createOrder();
+                break;
             case GET_ORDER:
-                return getOrder();
+                result = getOrder();
+                break;
             case ADD_ITEM_TO_ORDER:
-                return addItem();
+                result = addItem();
+                break;
             case REMOVE_ITEM_FROM_ORDER:
-                return removeItem();
+                result = removeItem();
+                break;
             case EXIT:
-                return exit();
+                result = null;
+                exit();
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + option);
         }
+        return Optional.ofNullable(result);
     }
 
-    private OrderApi createOrder() {
-//        final OrderItemApi item = new OrderItemApi(UUID.randomUUID().toString(), "Testowy produkt", BigDecimal.valueOf(10), 1);
-        //TODO wywołać logikę aplikacyjną
-        return new OrderApi(UUID.randomUUID().toString(), Set.of());
+    private OrderApiResult createOrder() {
+        return orderFacade.create();
     }
 
-    private OrderApi getOrder() {
+    private OrderApiResult getOrder() {
         final String orderId = view.getOrderId();
-        //TODO odpytać logikę aplikacyjną
-        return new OrderApi(UUID.randomUUID().toString(), Set.of());
+        return orderFacade.findById(orderId);
     }
 
-    private OrderApi addItem() {
+    private OrderApiResult addItem() {
         final String orderId = view.getOrderId();
-        //TODO wywołać logikę aplikacyjną
-        final ProductApi chocolate = new ProductApi(ProductId.create().asBasicType(),
-                "Czekolada",
-                BigDecimal.valueOf(4));
-        final ProductApi cocaCola = new ProductApi(ProductId.create().asBasicType(),
-                "Coca-cola",
-                BigDecimal.valueOf(5));
-        final String productId = view.getProduct(Set.of(chocolate, cocaCola));
-        //TODO wywołać logikę aplikacyjną
-        return new OrderApi(UUID.randomUUID().toString(), Set.of());
+        final Set<ProductApi> products = productFacade.findAll();
+        final String productId = view.getProduct(products);
+        return orderFacade.addItem(orderId, productId, 1); //TODO quantity
     }
 
-    private OrderApi removeItem() {
-        //TODO wywołać logikę aplikacyjną
+    private OrderApiResult removeItem() {
         final String orderId = view.getOrderId();
-        //TODO wywołać logikę aplikacyjną
-        OrderApi order = new OrderApi(UUID.randomUUID().toString(), Set.of());
-
-        final String productId = view.getProduct(Set.of());
-        return order;
+        final OrderApiResult result = orderFacade.findById(orderId);
+        if (result.isSuccess()) {
+            final OrderApi order = result.getOrder();
+            final Set<ProductApi> products = order.getProducts();
+            final String productId = view.getProduct(products);
+            return orderFacade.removeItem(orderId, productId);
+        }
+        return result;
     }
 
-    private OrderApi exit() {
+    private void exit() {
         view.sayGoodbye();
-        return new OrderApi(UUID.randomUUID().toString(), Set.of());
     }
 }

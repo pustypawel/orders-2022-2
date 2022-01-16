@@ -16,18 +16,20 @@ public class OrderFacade {
     private final OrderRepository orderRepository;
     private final ProductFacade productFacade;
 
-    public OrderApi create() {
+    public OrderApiResult create() {
         final Order order = Order.create();
-        return orderRepository.save(order).toApi();
+        return OrderApiResult.success(orderRepository.save(order).toApi());
     }
 
-    public Optional<OrderApi> findById(final String id) {
+    public OrderApiResult findById(final String id) {
         return findById(OrderId.of(id));
     }
 
-    public Optional<OrderApi> findById(final OrderId id) {
+    public OrderApiResult findById(final OrderId id) {
         return orderRepository.findById(id)
-                .map(Order::toApi);
+                .map(Order::toApi)
+                .map(OrderApiResult::success)
+                .orElseGet(() -> OrderApiResult.failure(OrderError.ORDER_NOT_FOUND));
     }
 
     public OrderApiResult addItem(final String orderId,
