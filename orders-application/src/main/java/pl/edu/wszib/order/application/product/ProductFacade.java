@@ -6,6 +6,7 @@ import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ProductFacade {
@@ -23,8 +24,8 @@ public class ProductFacade {
     }
 
     public Set<ProductApi> findAll() {
-        return Set.of();
+        return productRepository.findAll().stream()
+                .map(Product::toApi)
+                .collect(Collectors.toSet());
     }
-
-    //TODO findAll
 }
