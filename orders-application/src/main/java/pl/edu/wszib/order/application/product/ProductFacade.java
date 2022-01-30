@@ -29,3 +29,30 @@ public class ProductFacade {
                 .collect(Collectors.toSet());
     }
 }
+
+/*
+Headers
+GET - żądanie pobrania zasobu
+POST - żądanie utworzenia zasobu
+PUT - żądanie utworzenia lub nadpisania zasobu
+DELETE - żądanie usunięcia zasobu
+PATCH - żądanie aktualizacji/częściowej aktualizacji zasobu
+
+Body:
+
+POST
+/products
+Content-type: application/json
+
+Body:
+dane produktu
+
+GET
+/products/{productId}
+Accept: application/json
+
+GET
+/products
+Accept: application/json
+
+ */

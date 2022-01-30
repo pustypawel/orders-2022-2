@@ -69,3 +69,10 @@ public class OrderFacade {
                 .orElseGet(() -> OrderApiResult.failure(OrderError.ORDER_NOT_FOUND));
     }
 }
+
+/*
+POST /orders
+GET /orders/{orderId}
+POST /orders/{orderId}/items
+DELETE /orders/{orderId}/items/{productId}
+ */
